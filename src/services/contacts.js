@@ -17,6 +17,8 @@ export const patchContactService = async (contactId, updateData) => {
 };
 
 export const deleteContactService = async (contactId) => {
-  const deletedContact = await Contact.findByIdAndDelete(contactId);
+  const deletedContact = await Contact.findByIdAndDelete({
+    _id: contactId,
+  });
   return deletedContact;
 };
