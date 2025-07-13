@@ -16,17 +16,21 @@ export const getAllContacts = async (req, res) => {
   });
 };
 
-export const getContactById = async (req, res) => {
-  const contact = await Contact.findById(req.params.id);
-  if (!contact) {
-    throw createError(404, 'Contact not found');
-  }
+export const getContactById = async (req, res, next) => {
+  try {
+    const contact = await Contact.findById(req.params.id);
+    if (!contact) {
+      return next(createError(404, 'Contact not found'));
+    }
 
-  res.status(200).json({
-    status: 200,
-    message: 'Successfully retrieved contact',
-    data: contact,
-  });
+    res.json({
+      status: 200,
+      message: 'success',
+      data: contact,
+    });
+  } catch (err) {
+    next(err);
+  }
 };
 
 export const createContact = async (req, res) => {
@@ -69,13 +73,14 @@ export const patchContact = async (req, res) => {
   });
 };
 
-export const deleteContact = async (req, res) => {
+export const deleteContact = async (req, res, next) => {
   const { contactId } = req.params;
 
   const deletedContact = await deleteContactService(contactId);
 
   if (!deletedContact) {
-    throw createError(404, 'Contact not found');
+    next(createError(404, 'Contact not found'));
+    return;
   }
 
   res.status(204).send();
