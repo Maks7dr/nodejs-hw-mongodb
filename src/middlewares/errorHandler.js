@@ -3,7 +3,7 @@ export function errorHandler(err, req, res) {
   const message = err.message || 'Something went wrong';
   res.status(status).json({
     status,
-    message: 'Something went wrong',
+    message,
     data: message,
   });
 }

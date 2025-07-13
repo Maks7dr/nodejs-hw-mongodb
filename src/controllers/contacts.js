@@ -5,12 +5,28 @@ import {
   deleteContactService,
 } from '../services/contacts.js';
 
+import { Contact } from '../models/contact.js';
+
 export const getAllContacts = async (req, res) => {
-  res.json({ message: 'Get all contacts' });
+  const contacts = await Contact.find();
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully retrieved contacts',
+    data: contacts,
+  });
 };
 
 export const getContactById = async (req, res) => {
-  res.json({ message: `Get contact by ID: ${req.params.id}` });
+  const contact = await Contact.findById(req.params.id);
+  if (!contact) {
+    throw createError(404, 'Contact not found');
+  }
+
+  res.status(200).json({
+    status: 200,
+    message: 'Successfully retrieved contact',
+    data: contact,
+  });
 };
 
 export const createContact = async (req, res) => {
