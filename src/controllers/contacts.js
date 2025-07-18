@@ -1,5 +1,6 @@
 import createError from 'http-errors';
 import {
+  getContacts,
   createContactService,
   patchContactService,
   deleteContactService,
@@ -7,8 +8,26 @@ import {
 
 import { Contact } from '../models/contact.js';
 
+import { parsePaginationParams } from '../utils/parsePaginationParams.js';
+
+import { parseSortParams } from '../utils/parseSortParams.js';
+
+import { parseFilterParams } from '../utils/parseFilterParams.js';
+
 export const getAllContacts = async (req, res) => {
-  const contacts = await Contact.find();
+  const { page, perPage } = parsePaginationParams(req.query);
+
+  const { sortBy, sortOrder } = parseSortParams(req.query);
+
+  const filter = parseFilterParams(req.query);
+
+  const contacts = await getContacts({
+    page,
+    perPage,
+    sortBy,
+    sortOrder,
+    filter,
+  });
   res.status(200).json({
     status: 200,
     message: 'Successfully retrieved contacts',
