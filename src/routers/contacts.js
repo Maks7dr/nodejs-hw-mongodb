@@ -1,4 +1,4 @@
-import express from 'express';
+import { Router } from 'express';
 import {
   getAllContacts,
   getContactById,
@@ -14,8 +14,11 @@ import {
   UpdateContactSchema,
 } from '../validation/validation.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
+import { authenticate } from '../middlewares/authenticate.js';
 
-const router = express.Router();
+const router = Router();
+
+router.use(authenticate);
 
 router.get('/', ctrlWrapper(getAllContacts));
 router.get('/:id', isValidId, ctrlWrapper(getContactById));
