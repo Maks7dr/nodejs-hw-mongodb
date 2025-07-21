@@ -39,7 +39,7 @@ export const createContactService = async (data, userId) => {
 };
 
 export const patchContactService = async (contactId, updateData, userId) => {
-  const updatedContact = await Contact.findByIdAndUpdate(
+  const updatedContact = await Contact.findOneAndUpdate(
     { _id: contactId, userId },
     updateData,
     {
