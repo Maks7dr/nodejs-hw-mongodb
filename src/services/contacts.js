@@ -33,8 +33,8 @@ export const getContacts = async ({
   };
 };
 
-export const createContactService = async (data, userId) => {
-  const newContact = await Contact.create({ ...data, userId });
+export const createContactService = async (data) => {
+  const newContact = await Contact.create(data);
   return newContact;
 };
 

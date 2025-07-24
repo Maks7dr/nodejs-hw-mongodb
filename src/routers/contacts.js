@@ -16,16 +16,24 @@ import {
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { authenticate } from '../middlewares/authenticate.js';
 
+import { upload } from '../middlewares/multer.js';
+
 const router = Router();
 
 router.use(authenticate);
 
 router.get('/', ctrlWrapper(getAllContacts));
 router.get('/:id', isValidId, ctrlWrapper(getContactById));
-router.post('/', validateBody(contactSchema), ctrlWrapper(createContact));
+router.post(
+  '/',
+  upload.single('photo'),
+  validateBody(contactSchema),
+  ctrlWrapper(createContact),
+);
 router.patch(
   '/:contactId',
   isValidId,
+  upload.single('photo'),
   validateBody(UpdateContactSchema),
   ctrlWrapper(patchContact),
 );
