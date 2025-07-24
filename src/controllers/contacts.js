@@ -7,11 +7,8 @@ import {
 } from '../services/contacts.js';
 
 import { Contact } from '../models/contact.js';
-
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
-
 import { parseSortParams } from '../utils/parseSortParams.js';
-
 import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 export const getAllContacts = async (req, res) => {
