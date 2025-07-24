@@ -11,6 +11,10 @@ import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
 
+import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+import { getEnvVar } from '../utils/getEnvVar.js';
+
 export const getAllContacts = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
 
@@ -63,7 +67,20 @@ export const createContact = async (req, res) => {
     );
   }
 
-  const newContact = await createContactService(req.body, req.user._id);
+  let photoUrl;
+  if (req.file) {
+    photoUrl = await saveFileToUploadDir(req.file);
+  }
+
+  const contactData = {
+    name,
+    phoneNumber,
+    contactType,
+    userId: req.user._id,
+    ...(photoUrl && { photo: photoUrl }),
+  };
+
+  const newContact = await createContactService(contactData, req.user._id);
 
   res.status(201).json({
     status: 201,
@@ -74,10 +91,20 @@ export const createContact = async (req, res) => {
 
 export const patchContact = async (req, res) => {
   const { contactId } = req.params;
-  const updateFields = req.body;
+  const updateFields = { ...req.body };
 
-  if (Object.keys(updateFields).length === 0) {
+  if (Object.keys(updateFields).length === 0 && !req.file) {
     throw createError(400, 'Missing fields for update');
+  }
+
+  if (req.file) {
+    let photoUrl;
+    if (getEnvVar('ENABLE_CLOUDINARY') === 'true') {
+      photoUrl = await saveFileToCloudinary(req.file);
+    } else {
+      photoUrl = await saveFileToUploadDir(req.file);
+    }
+    updateFields.photo = photoUrl;
   }
 
   const updatedContact = await patchContactService(
