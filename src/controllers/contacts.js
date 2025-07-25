@@ -69,7 +69,11 @@ export const createContact = async (req, res) => {
 
   let photoUrl;
   if (req.file) {
-    photoUrl = await saveFileToUploadDir(req.file);
+    if (getEnvVar('ENABLE_CLOUDINARY') === 'true') {
+      photoUrl = await saveFileToCloudinary(req.file);
+    } else {
+      photoUrl = await saveFileToUploadDir(req.file);
+    }
   }
 
   const contactData = {
