@@ -11,9 +11,6 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000"
-    },
-    {
       "url": "https://nodejs-hw-mongodb-vppb.onrender.com"
     }
   ],
@@ -190,11 +187,6 @@
                   "phoneNumber"
                 ],
                 "properties": {
-                  "_id": {
-                    "description": "Contact's id",
-                    "type": "string",
-                    "example": "65e4decdd286b30065d54af9"
-                  },
                   "name": {
                     "description": "Contact's name",
                     "type": "string",
@@ -202,7 +194,7 @@
                   },
                   "phoneNumber": {
                     "description": "Contact's phoneNumber",
-                    "type": "number",
+                    "type": "string",
                     "example": 380000000002
                   },
                   "email": {
@@ -223,11 +215,6 @@
                       "home",
                       "personal"
                     ]
-                  },
-                  "userId": {
-                    "description": "Contact's user id",
-                    "type": "string",
-                    "example": "65e4decdd286b30065d54af9"
                   },
                   "photo": {
                     "description": "Link to contact's photo",
@@ -367,11 +354,6 @@
                   "phoneNumber"
                 ],
                 "properties": {
-                  "_id": {
-                    "description": "Contact's id",
-                    "type": "string",
-                    "example": "65e4decdd286b30065d54af9"
-                  },
                   "name": {
                     "description": "Contact's name",
                     "type": "string",
@@ -379,7 +361,7 @@
                   },
                   "phoneNumber": {
                     "description": "Contact's phoneNumber",
-                    "type": "number",
+                    "type": "string",
                     "example": 380000000002
                   },
                   "email": {
@@ -400,11 +382,6 @@
                       "home",
                       "personal"
                     ]
-                  },
-                  "userId": {
-                    "description": "Contact's user id",
-                    "type": "string",
-                    "example": "65e4decdd286b30065d54af9"
                   },
                   "photo": {
                     "description": "Link to contact's photo",
@@ -539,7 +516,7 @@
           },
           "phoneNumber": {
             "description": "Contact's phoneNumber",
-            "type": "number",
+            "type": "string",
             "example": 380000000002
           },
           "email": {
